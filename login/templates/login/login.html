@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Login de alguma coisa</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+
+    <style rel="stylesheet">
+
+        .imagemfundo {
+            height: 110px;
+            background-image: url({% static 'login/img/livro.jpg' %});
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+
+        }
+        .corfundo{
+            background-image: linear-gradient(to right, #b97c5d, #2a1a24);
+
+        }
+
+
+    </style>
+</head>
+<body class="login-page corfundo" >
+
+<div class="container-fluid" id="wrapper">
+    <div class="row">
+        <main class="col-xs-10 col-sm-8 col-md-4 m-auto " style="max-width:500px;  border-radius: 54px;">
+            <div class="login-panel card mt-5 shadow-lg mb-5  bg-white rounded" >
+                <div class="imagemfundo">
+                    <h3 class="card-title text-center mt-1 ">Login</h3>
+                </div>
+                <br>
+                <div class="card-block ">
+
+                    <div class="divider mt-0"></div>
+                    <form role="form" action="" method="post">
+                        {% csrf_token %}
+                        <div class="container ">
+
+                            <div class="input-group input-group-lg">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-lg" style="width: 102px;">Usuario</span>
+                                </div>
+                                <input type="text" id="username" placeholder="Usuário" name="username"
+                                       class="form-control" aria-label="Large"
+                                       aria-describedby="inputGroup-sizing-sm" type="text" required autofocus="">
+                            </div>
+                            <div class="input-group input-group-lg">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-lg"
+                                          style="width: 102px;">Senha</span>
+                                </div>
+                                <input type="password" id="password" placeholder="Senha" name="password"
+                                       class="form-control" aria-label="Large" required>
+                            </div>
+
+                            <div class="checkbox mt-1 mb-2">
+                                <span class="custom-control-description"><a href="">Esqueceu sua senha?</a></span>
+                            </div>
+                            <div class="text-center mb-2">
+                                <button type="submit" class="btn btn-lg btn-primary" style="width: 100%">Login</button>
+                            </div>
+                            <div class="text-center mb-2">
+                                <a href="" class="btn btn-lg btn-secondary" style="width: 100%">Inscrever-se</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
+
