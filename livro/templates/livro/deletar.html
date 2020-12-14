@@ -1,0 +1,20 @@
+
+{% extends 'livro/index.html'%}
+{% load static %}
+{% block titulo%}Editar Livro{%endblock%}
+
+{% block container%}
+    <div class="card-body">
+
+        		<form action="/index/deletar/{{ object.pk }}/" method="post">
+			{% csrf_token %}
+			<p>
+				Tem certeza que deseja excluir o Livro "{{ object.titulo }}" de "{{object.autor}}" ?
+			</p>
+			<input class="btn-danger" type="submit" value="Confirmar" />
+		</form>
+    </div>
+{%endblock%}
+
+
+

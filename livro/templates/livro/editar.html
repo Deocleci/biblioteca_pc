@@ -1,0 +1,45 @@
+{% extends 'livro/index.html'%}
+{% load static %}
+{% block titulo%}Editar Livro{%endblock%}
+
+{% block container%}
+<form action="{% url 'livro:editar' object.pk %}" method="post">
+    {% csrf_token %}
+    <div class="card-body">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form.titulo.errors }}
+                <label class="large mb-1" for="form.titulo.id_for_label">Titulo do Livro:</label>
+                {{ form.titulo }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form.autor.errors }}
+                <label class="large mb-1" for="form.autor.id_for_label ">Autor do Livro:</label>
+                {{ form.autor }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form.codigo.errors }}
+                <label class="large mb-1" for="form.codigo.id_for_label ">Código do Livro:</label>
+                {{ form.codigo }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form.editora.errors }}
+                <label class="large mb-1" for="form.editora.id_for_label">Editora do Livro:</label>
+                {{ form.editora }}
+            </div>
+        </div>
+
+
+        <br>
+        <a class="btn btn-danger" href="{% url 'livro:listar'%}"><i class="ti-close"></i> Cancelar</a>
+        <button class="btn btn-success" type="submit"><i class="ti-save"></i> Salvar</button>
+    </div>
+</form>
+{%endblock%}

@@ -1,0 +1,45 @@
+{% extends 'livro/index.html'%}
+{% load static %}
+{% block titulo%}Usuario{%endblock%}
+
+{% block container%}
+{% csrf_token %}
+<div class="card-body">
+    <div class="card-body">
+        <div class="table-responsive">
+
+            <h4>Informe o codigo unico do usuario:</h4>
+            <form action="{% url 'livro:pesquisar' %}" method="post">
+                {% csrf_token %}
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input class="form-control py-4" name="codigo" id="codigo" type="text" placeholder="Código"/>
+                    </div>
+                </div>
+
+                        <button class="btn btn-success" type="submit"><i class="ti-save"></i> Pesquisar</button>
+
+
+
+            </form>
+
+
+        </div>
+    </div>
+
+</div>
+
+{%endblock%}
+{% block script%}
+<script>
+    $(document).ready(function () {
+        // console.log($('#dataTable_previous'));
+        $('#dataTable_previous').html("<a href='#' aria-controls=\"dataTable\" data-dt-idx=\"0\" tabindex=\"0\"  class=\"page-link\"> Anterior </a>");
+        $('#dataTable_next').html("<a href='#' aria-controls=\"dataTable\" data-dt-idx=\"2\" tabindex=\"2\"  class=\"page-link\"> Próximo </a>");
+        //
+        $('#dataTable_info').empty();
+        $('.custom-select-sm').parent().empty();
+
+    });
+</script>
+{%endblock%}
