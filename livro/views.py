@@ -80,7 +80,7 @@ class EditLivro(UpdateView):
     template_name = 'livro/editar.html'
     success_url = reverse_lazy('livro:listar')
 
-@method_decorator(login_required, name='dispatch')
+@login_required
 def pesquisar(request):
     if request.method == 'POST':
         return redirect("/index/listaruser/" + request.POST['codigo'] )
