@@ -1,147 +1,201 @@
-{% extends 'livro/index.html'%}
+{% extends 'livro/index.html' %}
 {% load static %}
-{% block titulo%}Cadastrar Livro{%endblock%}
+{% block titulo %}Cadastrar Livro{% endblock %}
 
-{% block container%}
-{% csrf_token %}
-<div class="card-body">
+{% block container %}
+    {% csrf_token %}
     <div class="card-body">
-        <div class="table-responsive">
-            <a href="{% url 'livro:cadastrar' %}" class="btn btn-secondary">Cadastra Livro </a>
-            <br>
-            <br>
-            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
-                       aria-controls="pills-home" aria-selected="true">Disponiveis</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
-                       aria-controls="pills-profile" aria-selected="false">Emprestados</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                        <tr>
-                            <th>Titulo</th>
-                            <th>Autor</th>
-                            <th>Código</th>
-                            <th>Editora</th>
-                            {% if user.is_superuser or user.is_admin %}
-                            <th>Emprestado</th>
-                            <th></th>
-                            {% endif%}
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                            <th>Titulo</th>
-                            <th>Autor</th>
-                            <th>Código</th>
-                            <th>Editora</th>
-                            {% if user.is_superuser or user.is_admin %}
-                            <th>Emprestado</th>
-                            <th></th>
-                            {% endif%}
-                        </tr>
-                        </tfoot>
-                        <tbody>
-                        {% for livro in object_list %}
-                        {% if not livro.emprestado %}
-                        <tr>
-                            <td>{{livro.titulo}}</td>
-                            <td>{{livro.autor}}</td>
-                            <td>{{livro.codigo}}</td>
-                            <td>{{livro.editora}}</td>
-                            <td>{{livro.emprestado}}</td>
-                            <td>
-<!--                                <form action="/index/deletar/{{ livro.pk }}/" method="post">-->
-<!--                                    {% csrf_token %}-->
-<!--                                    <input class="btn btn-danger" type="submit" value="Excluir"/>-->
-<!--                                </form>-->
+        <div class="card-body">
+            <div class="table-responsive">
+                <a href="{% url 'livro:cadastrar' %}" class="btn btn-secondary">Cadastra Livro </a>
+                <br>
+                <br>
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
+                           aria-controls="pills-home" aria-selected="true">Disponiveis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
+                           aria-controls="pills-profile" aria-selected="false">Emprestados</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                         aria-labelledby="pills-home-tab">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Titulo</th>
+                                <th>Autor</th>
+                                <th>Código</th>
+                                <th>Editora</th>
+                                {% if user.is_superuser or user.is_admin %}
+                                    <th>Emprestado</th>
+                                    <th></th>
+                                {% endif %}
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Titulo</th>
+                                <th>Autor</th>
+                                <th>Código</th>
+                                <th>Editora</th>
+                                {% if user.is_superuser or user.is_admin %}
+                                    <th>Emprestado</th>
+                                    <th></th>
+                                {% endif %}
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            {% for livro in object_list %}
+                                {% if not livro.emprestado %}
 
-                                <a class="btn btn-danger" href="/index/deletar/{{ livro.pk }}/" value="Excluir">Excluir</a>
-                                <a class="btn btn-warning" href="/index/editar/{{ livro.pk }}/" value="Editar">Editar</a>
-                                <a class="btn btn-light" href="/index/editar/{{ livro.pk }}/" value="Editar">Emprestar</a>
 
-                            </td>
-                        </tr>
-                        {% endif %}
-                        {% endfor%}
-                        </tbody>
-                    </table>
 
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="a{{ livro.id }}" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h4>Informe o codigo unico do usuario:</h4>
+                                                    <form action="{% url 'livro:emprestar' livro.id %}" method="post">
+                                                        {% csrf_token %}
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <input class="form-control py-4" name="codigo"
+                                                                       id="codigo" type="text" placeholder="Código"/>
+                                                            </div>
+                                                        </div>
+
+                                                        <button class="btn btn-success" type="submit"><i
+                                                                class="ti-save"></i> Concluir
+                                                        </button>
+
+
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Fechar
+                                                    </button>
+{#                                                    <button type="button" class="btn btn-primary">Save changes</button>#}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <tr>
+                                        <td>{{ livro.titulo }}</td>
+                                        <td>{{ livro.autor }}</td>
+                                        <td>{{ livro.codigo }}</td>
+                                        <td>{{ livro.editora }}</td>
+                                        <td>{{ livro.emprestado }}</td>
+                                        <td>
+                                            <!--                                <form action="/index/deletar/{{ livro.pk }}/" method="post">-->
+                                            <!--                                    {% csrf_token %}-->
+                                            <!--                                    <input class="btn btn-danger" type="submit" value="Excluir"/>-->
+                                            <!--                                </form>-->
+
+                                            <a class="btn btn-danger" href="/index/deletar/{{ livro.pk }}/"
+                                               value="Excluir">Excluir</a>
+                                            <a class="btn btn-warning" href="/index/editar/{{ livro.pk }}/"
+                                               value="Editar">Editar</a>
+                                            <a class="btn btn-light" type="button" data-toggle="modal"
+                                               data-target="#a{{ livro.id }}"
+                                               value="Editar">Emprestar</a>
+
+
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        <table class="table table-bordered" id="dataTabl" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Titulo</th>
+                                <th>Autor</th>
+                                <th>Código</th>
+                                <th>Editora</th>
+                                {% if user.is_superuser or user.is_admin %}
+                                    <th>Emprestado</th>
+                                    <th></th>
+                                {% endif %}
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Titulo</th>
+                                <th>Autor</th>
+                                <th>Código</th>
+                                <th>Editora</th>
+                                {% if user.is_superuser or user.is_admin %}
+                                    <th>Emprestado</th>
+                                    <th></th>
+                                {% endif %}
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            {% for livro in object_list %}
+                                {% if livro.emprestado %}
+                                    <tr>
+                                        <td>{{ livro.titulo }}</td>
+                                        <td>{{ livro.autor }}</td>
+                                        <td>{{ livro.codigo }}</td>
+                                        <td>{{ livro.editora }}</td>
+                                        <td>{{ livro.emprestado }}</td>
+                                        <td>
+                                            <a class="btn btn-danger" href="/index/deletar/{{ livro.pk }}/"
+                                               value="Excluir">Excluir</a>
+                                            <a class="btn btn-warning" href="/index/editar/{{ livro.pk }}/"
+                                               value="Editar">Editar</a>
+                                            <a class="btn btn-light" href="/index/devolver/{{ livro.pk }}/"
+                                               value="Editar">Devolver</a>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
 
                 </div>
-                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                    <table class="table table-bordered" id="dataTabl" width="100%" cellspacing="0">
-                        <thead>
-                        <tr>
-                            <th>Titulo</th>
-                            <th>Autor</th>
-                            <th>Código</th>
-                            <th>Editora</th>
-                            {% if user.is_superuser or user.is_admin %}
-                            <th>Emprestado</th>
-                            <th></th>
-                            {% endif%}
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                            <th>Titulo</th>
-                            <th>Autor</th>
-                            <th>Código</th>
-                            <th>Editora</th>
-                            {% if user.is_superuser or user.is_admin %}
-                            <th>Emprestado</th>
-                            <th></th>
-                            {% endif%}
-                        </tr>
-                        </tfoot>
-                        <tbody>
-                        {% for livro in object_list %}
-                        {% if livro.emprestado %}
-                        <tr>
-                            <td>{{livro.titulo}}</td>
-                            <td>{{livro.autor}}</td>
-                            <td>{{livro.codigo}}</td>
-                            <td>{{livro.editora}}</td>
-                            <td>{{livro.emprestado}}</td>
-                            <td>
-                                <a class="btn btn-danger" href="/index/deletar/{{ livro.pk }}/" value="Excluir">Excluir</a>
-                                <a class="btn btn-warning" href="/index/editar/{{ livro.pk }}/" value="Editar">Editar</a>
-                                <a class="btn btn-light" href="/index/editar/{{ livro.pk }}/" value="Editar">Devolver</a>
-                            </td>
-                        </tr>
-                        {% endif %}
-                        {% endfor%}
-                        </tbody>
-                    </table>
 
-                </div>
 
             </div>
-
-
         </div>
+
     </div>
 
-</div>
+{% endblock %}
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            // console.log($('#dataTable_previous'));
+            $('#dataTable_previous').html("<a href='#' aria-controls=\"dataTable\" data-dt-idx=\"0\" tabindex=\"0\"  class=\"page-link\"> Anterior </a>");
+            $('#dataTable_next').html("<a href='#' aria-controls=\"dataTable\" data-dt-idx=\"2\" tabindex=\"2\"  class=\"page-link\"> Próximo </a>");
+            //
+            $('#dataTable_info').empty();
+            $('.custom-select-sm').parent().empty();
 
-{%endblock%}
-{% block script%}
-<script>
-    $(document).ready(function () {
-        // console.log($('#dataTable_previous'));
-        $('#dataTable_previous').html("<a href='#' aria-controls=\"dataTable\" data-dt-idx=\"0\" tabindex=\"0\"  class=\"page-link\"> Anterior </a>");
-        $('#dataTable_next').html("<a href='#' aria-controls=\"dataTable\" data-dt-idx=\"2\" tabindex=\"2\"  class=\"page-link\"> Próximo </a>");
-        //
-        $('#dataTable_info').empty();
-        $('.custom-select-sm').parent().empty();
-
-    });
-</script>
-{%endblock%}
+        });
+    </script>
+{% endblock %}

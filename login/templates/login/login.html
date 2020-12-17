@@ -42,9 +42,12 @@
                 <div class="card-block ">
 
                     <div class="divider mt-0"></div>
-                    <form role="form" action="" method="post">
+                    <form role="form" action="{% url 'login:login' %}" method="post">
                         {% csrf_token %}
                         <div class="container ">
+                            {% if form.username.value is not None %}
+                                <span class="custom-control-description" style='color:red;font-size:14px;'> Usuário ou senha estão incorretos. </span>
+                                {% endif %}
 
                             <div class="input-group input-group-lg">
                                 <div class="input-group-prepend">
@@ -52,7 +55,7 @@
                                 </div>
                                 <input type="text" id="username" placeholder="Usuário" name="username"
                                        class="form-control" aria-label="Large"
-                                       aria-describedby="inputGroup-sizing-sm" type="text" required autofocus="">
+                                       aria-describedby="inputGroup-sizing-sm" value="{% if form.username.value %} {{ form.username.value }} {% endif %}" type="text" required autofocus="">
                             </div>
                             <div class="input-group input-group-lg">
                                 <div class="input-group-prepend">

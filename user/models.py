@@ -20,8 +20,8 @@ class CustomUser(AbstractUser):
         },
     )
   class Meta:
-    verbose_name = "Cliente"
-    verbose_name_plural = "Clientes"
+    verbose_name = "Usuario"
+    verbose_name_plural = "Usuarios"
 
   def __str__(self):
     return self.first_name if self.first_name is not None else self.username
